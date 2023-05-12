@@ -18,8 +18,16 @@ public class MessageService {
         return this.messageDAO.getAllMessages();
     }
 
-    public Message addAuthor(Message message) {
-        return this.messageDAO.insertMessage(message);
+    // public Message getMessaegByMessageId(int messageID) {
+        
+    // }
+
+    public Message createMessage(Message message) {
+        if (messageDAO.getMessaegByMessageId(message.getMessage_id()) == null) {
+            return this.messageDAO.insertMessage(message);
+        }
+        return null;
+        
     }
 
 }
