@@ -14,10 +14,6 @@ public class MessageService {
         this.messageDAO = MessageDAO;
     }
 
-    public List<Message> getAllAccounts() {
-        return this.messageDAO.getAllMessages();
-    }
-
     // public Message getMessaegByMessageId(int messageID) {
         
     // }
@@ -28,6 +24,10 @@ public class MessageService {
         }
         return null;
         
+    }
+
+    public List<Message> getAllMessages() {
+        return this.messageDAO.getAllMessages();
     }
 
 }

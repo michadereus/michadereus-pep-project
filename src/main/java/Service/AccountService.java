@@ -14,12 +14,25 @@ public class AccountService {
         this.accountDAO = accountDAO;
     }
 
-    public List<Account> getAllAccounts() {
-        return this.accountDAO.getAllAccounts();
+    // public List<Account> getAllAccounts() {
+    //     return this.accountDAO.getAllAccounts();
+    // }
+
+    public Account registerAccount(Account acc) {
+        if (acc.password.length() > 3 && acc.username != "") {
+            if (accountDAO.getAccountByUsername(acc.getUsername()) == null) {
+                return this.accountDAO.insertAccount(acc);
+            }
+        }
+        return null;
     }
 
-    public Account addAuthor(Account account) {
-        return this.accountDAO.insertAccount(account);
-    }
+    // public Account getAccountByUsername(Account acc) {
 
+    //     return null;
+    // }
+
+    public Account loginAccount(Account acc) {
+        return accountDAO.getAccountByUsernameAndPassword(acc.getUsername(), acc.getPassword());
+    }
 }
