@@ -41,7 +41,7 @@ public class MessageService {
         String new_text_2 = new_text.split(":")[1];
         new_text_2 = new_text_2.replaceAll("\"|}", "").stripLeading().stripTrailing();
          
-        if (message != null && new_text_2.length() <= 255 && new_text_2 != "") {
+        if (message != null && new_text_2.length() < 255 && new_text_2 != "") {
             this.messageDAO.updateMessageByMessageID(messageID_int, new_text_2);
             return this.messageDAO.getMessageByMessageID(messageID_int);
         }
