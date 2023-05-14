@@ -9,12 +9,12 @@ import java.util.List;
 
 /**
  * A DAO is a class that mediates the transformation of data between the format of objects in Java to rows in a
- * database. The methods here are mostly filled out, you will just need to add a SQL statement.
+ * database. The methods here are mostly filled out, you will just need to add a SQL statement. asdasdas
  *
     account_id integer primary key auto_increment,
     username varchar(255),
     password varchar(255)
- *   
+ *   szdsd
  */
 
 public class AccountDAO{
@@ -23,7 +23,7 @@ public class AccountDAO{
     //     Connection connection = ConnectionUtil.getConnection();
     //     List<Account> accounts = new ArrayList<>();
     //     return accounts;
-    // } asdasda
+    // }
 
     public Account insertAccount(Account account) {
         Connection connection = ConnectionUtil.getConnection();
