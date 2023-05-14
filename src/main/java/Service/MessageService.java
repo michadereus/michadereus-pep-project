@@ -15,7 +15,7 @@ public class MessageService {
         this.messageDAO = MessageDAO;
     }
 
-    // public Message getMessaegByMessageId(int messageID) {
+    // public Message getMessageByMessageId(int messageID) {
         
     // }
     /*
@@ -35,8 +35,40 @@ public class MessageService {
         return null;
     }
 
+    public Message patchMessageByMessageID(String messageID, String new_text) {
+        int messageID_int = Integer.valueOf(messageID);
+        Message message = this.messageDAO.getMessageByMessageID(messageID_int);
+        String new_text_2 = new_text.split(":")[1];
+        new_text_2 = new_text_2.replaceAll("\"|}", "").stripLeading().stripTrailing();
+         
+        if (message != null && new_text_2.length() <= 255 && new_text_2 != "") {
+            this.messageDAO.updateMessageByMessageID(messageID_int, new_text_2);
+            return this.messageDAO.getMessageByMessageID(messageID_int);
+        }
+        return null;
+    }
+
+    public Message getMessageByID(String messageID) {
+        int messageID_int = Integer.valueOf(messageID);
+        return this.messageDAO.getMessageByMessageID(messageID_int);
+    }
+
     public List<Message> getAllMessages() {
         return this.messageDAO.getAllMessages();
+    }
+
+    public Message delMessageByID(String messageID) {
+        int messageID_int = Integer.valueOf(messageID);
+        Message getMessage = this.messageDAO.getMessageByMessageID(messageID_int);
+        if (getMessage != null) {
+            this.messageDAO.delMessageByMessageID(messageID_int);
+        } 
+        return getMessage;
+    }
+
+    public List<Message> getAllMessagesByAccountID(String accountID) {
+        int accountID_int = Integer.valueOf(accountID);
+        return this.messageDAO.getMessagesByAccountID(accountID_int);
     }
 
 }
