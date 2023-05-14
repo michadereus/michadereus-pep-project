@@ -13,8 +13,6 @@ import java.util.List;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.javalin.Javalin;
-import io.javalin.http.Context;
 
 /**
  * TODO: You will need to write your own endpoints and handlers for your controller. The endpoints you will need can be
@@ -36,18 +34,15 @@ public class SocialMediaController {
      * @return a Javalin app object which defines the behavior of the Javalin controller.
      */
     public Javalin startAPI() {
-        // Javalin app = Javalin.create();
-        // app.get("/books", this::getAllBooksHandler);
-        // app.post("/books", this::postBookHandler);
-        // app.get("/authors", this::getAllAuthorsHandler);
-        // app.post("/authors", this::postAuthorHandler);
-        // app.get("/books/available", this::getAvailableBooksHandler);
-        // app.start(8080);
         Javalin app = Javalin.create();
         app.get("/messages", this::getAllMessagesHandler);
         app.post("/messages", this::postMessageHandler);
+        app.get("/messages/{message_id}", this::getMessageHandler);
+        app.delete("/messages/{message_id}", this::delMessageHandler);
+        app.patch("/messages/{message_id}", this::patchMessageHandler);
         app.post("/register", this::postAccountHandler);
         app.post("/login", this::loginAccountHandler);
+        app.get("accounts/{account_id}/messages", this::getAllMessagesByAccountHandler);
 
         // app.start(8080);
         return app;
@@ -56,6 +51,39 @@ public class SocialMediaController {
     private void getAllMessagesHandler(Context context) {
         List<Message> messages = messageService.getAllMessages();
         context.json(messages);
+    }
+
+    private void getAllMessagesByAccountHandler(Context context) {
+        List<Message> messages = messageService.getAllMessagesByAccountID(context.pathParam("account_id"));
+        context.json(messages);
+    }
+
+    private void getMessageHandler(Context context) throws JsonMappingException, JsonProcessingException {
+        Message message = messageService.getMessageByID(context.pathParam("message_id"));
+        if (message != null) {
+            context.json(message);
+        } else {
+            context.json("");
+        }
+    }
+
+    private void delMessageHandler(Context context) throws JsonMappingException, JsonProcessingException {
+        Message message = messageService.delMessageByID(context.pathParam("message_id"));
+        if (message != null) {
+            context.json(message);
+        } else {
+            context.json("");
+        }
+    }
+
+    private void patchMessageHandler(Context context) throws JsonMappingException, JsonProcessingException {
+        Message message = messageService.patchMessageByMessageID(context.pathParam("message_id"), context.body());
+
+        if (message != null) {
+            context.json(message);
+        } else {
+            context.status(400);
+        }
     }
 
     private void postMessageHandler(Context context) throws JsonProcessingException {
